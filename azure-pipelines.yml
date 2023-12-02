@@ -1,0 +1,75 @@
+#.NET 6 Web App for Linux Build
+
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: "Release"
+  dotNetFramework: "net6.0"
+  dotNetVersion: "6.0.x"
+  targetRuntime: "linux-x64"
+
+# Build the app for .NET 6 framework
+stages:
+  - stage:
+    displayName: Build .NET application
+    jobs:
+      - job:
+        displayName: Build Job
+        steps:
+          # Build the app for .NET 6 framework
+          - task: FileTransform@1
+            inputs:
+              folderPath: "$(System.DefaultWorkingDirectory)/**/"
+              fileType: "json"
+              targetFiles: "**/appsettings.json"
+          - task: UseDotNet@2
+            inputs:
+              version: $(dotNetVersion)
+              includePreviewVersions: true
+          - script: dotnet build --configuration $(buildConfiguration)
+            displayName: "Build .NET 6 Application"
+
+          # Publish it as .NET 6 self-contained application for linux runtime
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: publish
+              publishWebProjects: True
+              arguments: "--configuration $(BuildConfiguration) --framework $(dotNetFramework) --runtime $(targetRuntime) --self-contained --output $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: True
+
+          # Package the file and uploads them as an artifact of the build
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)"
+              artifactName: "MinimalAPI"
+  - stage:
+    displayName: Unit-Test .NET application
+    jobs:
+      - job:
+        displayName: Test Job
+        steps:
+          # Test the app for .NET 6 framework NUnit
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: test
+              projects: "**/*.Test*/*.csproj"
+              nobuild: true
+              publishTestResults: false
+              arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+              
+          - task: reportgenerator@5
+            displayName: "Merge Codecoverage Results"
+            inputs:
+              reports: '**/coverage.cobertura.xml'
+              targetdir: '$(Build.SourcesDirectory)/CoverageResults'
+
+          - task: PublishCodeCoverageResults@1
+            displayName: 'Publish code coverage report'
+            inputs:
+              codeCoverageTool: 'Cobertura'
+              summaryFileLocation: '$(Build.SourcesDirectory)/CoverageResults/Cobertura.xml'
+              reportDirectory: '$(Build.SourcesDirectory)/CoverageResults'

@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+	<TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <Description>A library generated from a OpenAPI doc</Description>
+    <Copyright>No Copyright</Copyright>
+    <Authors>OpenAPI</Authors>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <Version>1.0.0</Version>
+    <AssemblyName>B3B4G7.SKS.Package.Services</AssemblyName>
+    <PackageId>B3B4G7.SKS.Package.Services</PackageId>
+    <UserSecretsId>213721c7-ae7d-4abe-84f3-15e3406981b6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../B3B4G7.SKS.Package.Services.DTOs/B3B4G7.SKS.Package.Services.DTOs.csproj" />
+    <ProjectReference Include="..\B3B4G7.SKS.Package.BusinessLogic.Entities\B3B4G7.SKS.Package.BusinessLogic.Entities.csproj" />
+    <ProjectReference Include="..\B3B4G7.SKS.Package.BusinessLogic\B3B4G7.SKS.Package.BusinessLogic.csproj" />
+    <ProjectReference Include="..\B3B4G7.SKS.Package.DataAccess.Sql\B3B4G7.SKS.Package.DataAccess.Sql.csproj" />
+    <ProjectReference Include="..\B3B4G7.SKS.Package.WebhookManager\B3B4G7.SKS.Package.WebhookManager.csproj" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="6.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="NetTopologySuite.Core" Version="1.15.3" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="2.0.4" />
+    <PackageReference Include="NetTopologySuite.IO.SqlServerBytes" Version="2.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+  </ItemGroup>
+</Project>
