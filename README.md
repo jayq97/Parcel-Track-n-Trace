@@ -1,4 +1,4 @@
-# Warning
+# Warning ⚠️
 
 This project is designed to operate exclusively in Azure. I have uploaded this project to GitHub to make the code available.
 
